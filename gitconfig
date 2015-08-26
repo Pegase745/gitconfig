@@ -1,0 +1,77 @@
+# local user config
+[include]
+    path = ~/.gitconfig-local
+
+[alias]
+    a           = add -p
+    amend       = commit -a --amend
+    bclean      = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f"
+    bdone       = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
+    br          = branch -vv
+    cm          = !git add -A && git commit
+    co          = checkout
+    cob         = checkout -b
+    conflict    = !gitk --left-right HEAD...MERGE_HEAD
+    contains    = branch --contains
+    cp          = cherry-pick -x
+    di          = diff --color-words
+    discard     = checkout --
+    ec          = config --global -e
+    lg          = log --graph --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s   %Cgreen(%an %ar)%Creset'
+    lgfull      = log --pretty=fuller --graph --stat -p
+    notmerged   = branch -a --no-merged
+    save        = !git add -A && git commit -m 'SAVEPOINT'
+    st          = status
+    squash      = rebase -i @{u}
+    tag-version = describe origin/stable --tags --abbrev=0
+    undo        = reset HEAD~1 --mixed
+    undomerge   = reset --hard ORIG_HEAD
+    unstage     = reset HEAD
+    up          = !git pull --rebase --prune $@ && git submodule update --init --recursive
+    whatrelease = name-rev --name-only
+    who         = shortlog -s --
+    wipe        = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
+
+[color]
+    branch      = auto
+    diff        = auto
+    interactive = auto
+    status      = auto
+    ui          = auto
+
+[color "branch"]
+  current = yellow reverse
+  local = yellow
+  remote = green
+
+[color "diff"]
+  meta = yellow bold
+  frag = magenta
+  plain = white bold
+  old = red bold
+  new = green bold
+  commit = yellow bold
+  func = green dim
+
+[color "status"]
+  added = yellow
+  changed = green
+  untracked = cyan
+
+[diff]
+    mnemonicPrefix = true
+    renames        = true
+    wordRegex      = [^,:.[:space:]$%'-]+[,:.[:space:]$%'-]?
+
+[log]
+    abbrevCommit = true
+
+[merge]
+    conflictStyle = diff3
+    log           = true
+
+[push]
+    default = simple
+
+[status]
+    showUntrackedFiles = all
