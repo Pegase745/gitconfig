@@ -5,10 +5,11 @@
 [alias]
     a           = add -p
     amend       = commit -a --amend
+    autosquash  = rebase -i --autosquash
     bclean      = "!f() { git branch --merged ${1-master} | grep -v " ${1-master}$" | xargs -r git branch -d; }; f"
     bdone       = "!f() { git checkout ${1-master} && git up && git bclean ${1-master}; }; f"
     br          = branch -vv
-    cm          = !git add -A && git commit
+    cm          = !git add -A && git commit -s
     co          = checkout
     cob         = checkout -b
     conflict    = !gitk --left-right HEAD...MERGE_HEAD
@@ -17,9 +18,17 @@
     di          = diff --color-words
     discard     = checkout --
     ec          = config --global -e
+    fx          = commit --fixup
+    lasttagcm   = log `git describe --tags --abbrev=0`..HEAD --pretty=oneline
     lg          = log --graph --pretty=tformat:'%Cred%h%Creset -%C(auto)%d%Creset %s   %Cgreen(%an %ar)%Creset'
     lgfull      = log --pretty=fuller --graph --stat -p
+    m           = checkout master
     notmerged   = branch -a --no-merged
+    pr          = pull --rebase
+    rb          = rebase origin/master
+    rba         = rebase --abort
+    rbc         = rebase --continue
+    rbs         = rebase --skip
     save        = !git add -A && git commit -m 'SAVEPOINT'
     st          = status
     squash      = rebase -i @{u}
@@ -28,6 +37,7 @@
     undomerge   = reset --hard ORIG_HEAD
     unstage     = reset HEAD
     up          = !git pull --rebase --prune $@ && git submodule update --init --recursive
+    upstream    = !git fetch upstream && git rebase upstream/master
     whatrelease = name-rev --name-only
     who         = shortlog -s --
     wipe        = !git add -A && git commit -qm 'WIPE SAVEPOINT' && git reset HEAD~1 --hard
